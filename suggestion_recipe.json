@@ -1,0 +1,520 @@
+[
+  {
+    "name": "Quinoa Salad with Vegetables",
+    "ingredients": [
+      "1 cup quinoa, rinsed",
+      "2 cups vegetable broth or water",
+      "1 medium cucumber, diced",
+      "1 large tomato, diced",
+      "1 bell pepper (red or yellow), diced",
+      "1/4 cup fresh parsley, chopped",
+      "2 tablespoons olive oil",
+      "Juice of 1 lemon",
+      "Salt and black pepper to taste"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158081/FITFAT%20images/home%20suggestion%20recipes%20images/dx58mfmkllyxxjaprtdy.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Grilled Salmon",
+    "ingredients": [
+      "4 salmon fillets, skin on",
+      "2 tablespoons olive oil",
+      "2 tablespoons lemon juice, freshly squeezed",
+      "1 teaspoon garlic, minced",
+      "1 teaspoon dried thyme",
+      "Salt and black pepper to taste"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/btmwpaeazvmutfn7sksm.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Red Lentil Soup",
+    "ingredients": [
+      "1 cup red lentils, rinsed",
+      "1 small onion, finely chopped",
+      "2 garlic cloves, minced",
+      "2 tablespoons olive oil",
+      "1 medium carrot, chopped",
+      "1 medium tomato, chopped",
+      "4 cups vegetable broth or water",
+      "1/2 teaspoon ground cumin",
+      "Salt and black pepper to taste"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/dpxysrae8nivps5ymiqr.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Oatmeal with Fruit Breakfast",
+    "ingredients": [
+      "oats",
+      "milk (low-fat or plant-based)",
+      "tablespoon honey or maple syrup",
+      "banana, sliced",
+      "cup berries or favorite fruit",
+      "Pinch of cinnamon (optional)"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/cun0ersyv8z6ihkpsk7x.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Grilled Chicken Breast with Sauted Vegetables",
+    "ingredients": [
+      "boneless, skinless chicken breasts",
+      "tablespoons olive oil",
+      "teaspoon minced garlic",
+      "Juice of 1 lemon",
+      "teaspoon thyme or rosemary",
+      "Salt and black pepper",
+      "Mixed vegetables (zucchini, broccoli, bell peppers)"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/xfheadrxtgg1qtkvptmj.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Vegetable Stir-fry",
+    "ingredients": [
+      "bell pepper, sliced",
+      "zucchini, sliced",
+      "carrot, julienned",
+      "1/2 cup broccoli florets",
+      "tablespoons soy sauce",
+      "tablespoon olive oil",
+      "teaspoon sesame oil",
+      "teaspoon minced garlic",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158083/FITFAT%20images/home%20suggestion%20recipes%20images/xnxesuyo1dexcy69p97b.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Avocado Toast",
+    "ingredients": [
+      "avocado, mashed",
+      "slices whole grain bread",
+      "tablespoon olive oil",
+      "Juice of 1/2 lemon",
+      "Salt and black pepper",
+      "Red pepper flakes (optional)"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158083/FITFAT%20images/home%20suggestion%20recipes%20images/jlpvwmcklyup0hsvht5d.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Chickpea and Vegetable Curry",
+    "ingredients": [
+      "can chickpeas, drained",
+      "potato, diced",
+      "carrot, chopped",
+      "1/2 red bell pepper, chopped",
+      "zucchini, chopped",
+      "small onion, chopped",
+      "garlic cloves, minced",
+      "teaspoon turmeric",
+      "teaspoon cumin",
+      "tablespoon tomato paste",
+      "1/2 cup coconut milk",
+      "tablespoons olive oil"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158083/FITFAT%20images/home%20suggestion%20recipes%20images/fxxxnrvp63aemuovx1r9.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Avocado and Egg Salad",
+    "ingredients": [
+      "boiled eggs, chopped",
+      "avocado, diced",
+      "1/2 cucumber, chopped",
+      "1/4 cup chopped parsley",
+      "tablespoon olive oil",
+      "Juice of 1 lemon",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/xicnwyb9kmfotl3hrfv2.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Roasted Tomato Soup",
+    "ingredients": [
+      "tomatoes, chopped",
+      "small onion, chopped",
+      "garlic cloves, minced",
+      "tablespoons olive oil",
+      "cups vegetable broth",
+      "teaspoon dried thyme",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/zcadjohia0srvzl72xj1.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Stuffed Zucchini with Rice and Vegetables",
+    "ingredients": [
+      "zucchini, hollowed",
+      "1/2 cup brown rice",
+      "tomato, chopped",
+      "small onion, chopped",
+      "1/2 red bell pepper, chopped",
+      "tablespoon olive oil",
+      "1/4 cup chopped parsley",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158082/FITFAT%20images/home%20suggestion%20recipes%20images/px1nklb3boecwvm3tm8u.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Tuna and Avocado Salad",
+    "ingredients": [
+      "can tuna, drained",
+      "1/2 avocado, diced",
+      "1/4 cup red onion, chopped",
+      "1/4 cup parsley, chopped",
+      "tablespoon olive oil",
+      "Juice of 1 lemon",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158084/FITFAT%20images/home%20suggestion%20recipes%20images/qp3p4jej7f1hqccrrwkj.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Oatmeal with Cocoa and Banana",
+    "ingredients": [
+      "1/2 cup oats",
+      "cup milk (low-fat or plant-based)",
+      "tablespoon cocoa powder",
+      "tablespoon honey",
+      "1/2 banana, sliced",
+      "teaspoon chia seeds (optional)"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158084/FITFAT%20images/home%20suggestion%20recipes%20images/x0nlmas1a6lf9jvcz3tj.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Beetroot and Feta Salad",
+    "ingredients": [
+      "cooked beetroots, chopped",
+      "1/4 cup crumbled feta cheese",
+      "1/4 cup walnuts, chopped",
+      "tablespoon olive oil",
+      "Juice of 1 lemon",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158083/FITFAT%20images/home%20suggestion%20recipes%20images/nosmwnybowcilrrzfvhp.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Grilled Chicken with Garlic and Herbs",
+    "ingredients": [
+      "chicken breasts",
+      "tablespoons olive oil",
+      "garlic cloves, minced",
+      "teaspoon dried thyme",
+      "teaspoon rosemary",
+      "Juice of 1 lemon",
+      "Salt and black "
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158084/FITFAT%20images/home%20suggestion%20recipes%20images/ksuvisprlsm4uxiptexg.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Carrot and Ginger Soup",
+    "ingredients": [
+      "carrots, chopped",
+      "small onion, chopped",
+      "garlic cloves, minced",
+      "teaspoon fresh ginger, minced",
+      "cups vegetable broth",
+      "tablespoons olive oil",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158084/FITFAT%20images/home%20suggestion%20recipes%20images/oep0aqguygmmkscfqwvq.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Pasta with Eggplant and Tomato Sauce",
+    "ingredients": [
+      "200 grams whole wheat pasta",
+      "eggplant, chopped",
+      "tomato, chopped",
+      "garlic clove, minced",
+      "1/4 cup tomato sauce",
+      "tablespoons olive oil",
+      "1/4 cup grated Parmesan cheese",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158084/FITFAT%20images/home%20suggestion%20recipes%20images/jqzqfapheiy5ldls7nnt.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Apple and Quinoa Salad",
+    "ingredients": [
+      "cup cooked quinoa",
+      "apple, chopped",
+      "1/4 cup walnuts, chopped",
+      "1/4 cup raisins",
+      "tablespoons olive oil",
+      "teaspoon honey",
+      "Juice of 1 lemon"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/ybdcewe293fmfarrxlkl.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Sardine Tagine with Vegetables",
+    "ingredients": [
+      "sardines",
+      "potato, sliced",
+      "tomato, sliced",
+      "small onion, sliced",
+      "tablespoons olive oil",
+      "1/2 teaspoon cumin",
+      "1/2 teaspoon paprika",
+      "Salt and black pepper"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/sl97sq5p3eygdsmofbhp.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Oat and Banana Pancakes",
+    "ingredients": [
+      "cup oats",
+      "mashed banana",
+      "eggs",
+      "1/2 cup milk (low-fat or plant-based)",
+      "teaspoon vanilla",
+      "1/2 teaspoon baking powder",
+      "teaspoon cinnamon"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/qpphj5azocdagfyvew33.jpg",
+    "price": 15,
+    "calories": 300,
+    "protein": "10g",
+    "minerals": {
+      "iron": "2mg",
+      "calcium": "50mg",
+      "potassium": "200mg"
+    }
+  },
+  {
+    "name": "Fruit Smoothie Bowl",
+    "ingredients": [
+      "banana",
+      "berries",
+      "granola",
+      "coconut flakes",
+      "chia seeds"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/xwhhr0cqkmjd4dtnqzqk.jpg",
+    "price": 14,
+    "calories": 532,
+    "protein": "14g",
+    "minerals": {
+      "iron": "4.6mg",
+      "calcium": "60.8mg",
+      "potassium": "104.0mg"
+    }
+  },
+  {
+    "name": "Greek Yogurt Parfait",
+    "ingredients": ["greek yogurt", "berries", "honey", "granola", "walnuts"],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/aus5gjhy2ndf5vz4xhj9.jpg",
+    "price": 18,
+    "calories": 439,
+    "protein": "7g",
+    "minerals": {
+      "iron": "1.7mg",
+      "calcium": "25.6mg",
+      "potassium": "144.7mg"
+    }
+  },
+  {
+    "name": "BBQ Pulled Pork Sandwich",
+    "ingredients": [
+      "pulled pork",
+      "BBQ sauce",
+      "brioche bun",
+      "coleslaw",
+      "pickles"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/kbkespqefyvqbxsdqf9x.jpg",
+    "price": 16,
+    "calories": 470,
+    "protein": "22g",
+    "minerals": {
+      "iron": "2.0mg",
+      "calcium": "60.9mg",
+      "potassium": "230.5mg"
+    }
+  },
+  {
+    "name": "Chicken Caesar Salad",
+    "ingredients": [
+      "romaine lettuce",
+      "grilled chicken breast",
+      "parmesan cheese",
+      "Caesar dressing",
+      "croutons"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/ioys1peqyxykvwgrsqtz.jpg",
+    "price": 16,
+    "calories": 489,
+    "protein": "10g",
+    "minerals": {
+      "iron": "1.9mg",
+      "calcium": "31.0mg",
+      "potassium": "468.6mg"
+    }
+  },
+  {
+    "name": "Mushroom Risotto",
+    "ingredients": [
+      "arborio rice",
+      "mushrooms",
+      "parmesan cheese",
+      "white wine",
+      "vegetable broth"
+    ],
+    "image": "https://res.cloudinary.com/djqyhkpq8/image/upload/v1733158085/FITFAT%20images/home%20suggestion%20recipes%20images/y6n34ebzpalgg1cumcx1.jpg",
+    "price": 23,
+    "calories": 390,
+    "protein": "23g",
+    "minerals": {
+      "iron": "1.5mg",
+      "calcium": "71.2mg",
+      "potassium": "261.8mg"
+    }
+  }
+]
