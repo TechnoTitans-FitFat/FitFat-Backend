@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     uid: { type: String, required: true, unique: true },
     userType: {
       type: String,
-      default: "Vendor",
+      default: "Client",
       enum: ["Admin", "Driver", "Client", "Vendor"],
     },
     dietType: {

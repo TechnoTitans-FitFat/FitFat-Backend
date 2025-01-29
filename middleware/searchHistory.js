@@ -1,13 +1,23 @@
-const searchHistory = [];
+const searchHistory = {
+  name: [],
+  title: [],
+};
 
 const trackSearchHistory = (req, res, next) => {
-  const { name } = req.query;
+  const { name, title } = req.query;
 
-  if (name && !searchHistory.includes(name)) {
-    if (searchHistory.length >= 4) {
-      searchHistory.shift();
+  if (name && !searchHistory.name.includes(name)) {
+    if (searchHistory.name.length >= 4) {
+      searchHistory.name.shift();
     }
-    searchHistory.push(name);
+    searchHistory.name.push(name);
+  }
+
+  if (title && !searchHistory.title.includes(title)) {
+    if (searchHistory.title.length >= 4) {
+      searchHistory.title.shift();
+    }
+    searchHistory.title.push(title);
   }
 
   res.locals.searchHistory = searchHistory;
