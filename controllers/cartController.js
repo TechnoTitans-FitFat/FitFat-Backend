@@ -15,10 +15,12 @@ module.exports = {
       }
 
       const productPrice = Number(recipe.price);
-      if (isNaN(productPrice)) {
-        return res
-          .status(400)
-          .json({ status: false, message: "Invalid price for recipe" });
+      const productCalories = Number(recipe.calories);
+      if (isNaN(productPrice) || isNaN(productCalories)) {
+        return res.status(400).json({
+          status: false,
+          message: "Invalid price or calories for recipe",
+        });
       }
 
       let cartItem = await Cart.findOne({ UserId: userId, productId });
@@ -26,6 +28,7 @@ module.exports = {
       if (cartItem) {
         cartItem.quantity += quantity;
         cartItem.totalPrice = cartItem.quantity * productPrice;
+        cartItem.totalCalories = cartItem.quantity * productCalories;
         await cartItem.save();
       } else {
         cartItem = new Cart({
@@ -34,6 +37,7 @@ module.exports = {
           additives: additives || [],
           instructions: instructions || "",
           totalPrice: productPrice * quantity,
+          totalCalories: productCalories * quantity,
           quantity,
         });
         await cartItem.save();
@@ -44,18 +48,23 @@ module.exports = {
         (sum, item) => sum + item.totalPrice,
         0
       );
+      const totalCartCalories = cartItems.reduce(
+        (sum, item) => sum + item.totalCalories,
+        0
+      );
 
       res.status(200).json({
         status: true,
         message: "Product added successfully",
         totalCartPrice,
+        totalCartCalories,
       });
     } catch (error) {
       res.status(500).json({ status: false, message: error.message });
     }
   },
 
-  removeProductToCart: async (req, res) => {
+  removeProductFromCart: async (req, res) => {
     const itemId = req.params.id;
     const userId = req.user.id;
 
@@ -85,11 +94,15 @@ module.exports = {
     try {
       const userCart = await Cart.find({ UserId: userId }).populate({
         path: "productId",
-        select: "name price",
+        select: "name price calories",
       });
 
       const totalCartPrice = userCart.reduce(
         (sum, item) => sum + item.totalPrice,
+        0
+      );
+      const totalCartCalories = userCart.reduce(
+        (sum, item) => sum + item.totalCalories,
         0
       );
 
@@ -100,10 +113,13 @@ module.exports = {
           productId: item.productId._id,
           name: item.productId.name,
           price: item.productId.price,
+          calories: item.productId.calories,
           quantity: item.quantity,
           totalPrice: item.totalPrice,
+          totalCalories: item.totalCalories,
         })),
         totalCartPrice,
+        totalCartCalories,
       });
     } catch (error) {
       res.status(500).json({ status: false, message: error.message });
@@ -143,10 +159,9 @@ module.exports = {
 
     try {
       if (!productId) {
-        return res.status(400).json({
-          status: false,
-          message: "Product ID is required",
-        });
+        return res
+          .status(400)
+          .json({ status: false, message: "Product ID is required" });
       }
 
       const cartItem = await Cart.findOne({
@@ -155,10 +170,9 @@ module.exports = {
       });
 
       if (!cartItem) {
-        return res.status(404).json({
-          status: false,
-          message: "Product not found in cart",
-        });
+        return res
+          .status(404)
+          .json({ status: false, message: "Product not found in cart" });
       }
 
       if (cartItem.quantity === 1) {
@@ -170,8 +184,10 @@ module.exports = {
       }
 
       const productPrice = cartItem.totalPrice / cartItem.quantity;
+      const productCalories = cartItem.totalCalories / cartItem.quantity;
       cartItem.quantity -= 1;
       cartItem.totalPrice -= productPrice;
+      cartItem.totalCalories -= productCalories;
       await cartItem.save();
 
       return res.status(200).json({

@@ -12,7 +12,7 @@ router.post(
 router.delete(
   "/delete/:id",
   verifyAndAuthorization,
-  cartController.removeProductToCart
+  cartController.removeProductFromCart
 );
 router.get("/", verifyAndAuthorization, cartController.fetchUserCart);
 router.get("/count", verifyAndAuthorization, cartController.getCartCount);

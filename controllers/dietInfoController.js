@@ -37,13 +37,25 @@ exports.getDietInfo = async (req, res) => {
 
 exports.updateDietInfo = async (req, res) => {
   try {
-    const dietInfo = await DietInfo.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const dietInfo = await DietInfo.findOne({ userId: req.params.id });
+
+    if (!dietInfo) {
+      return res.status(404).json({
+        status: false,
+        message: "Diet info not found for this user",
+      });
+    }
+
+    const updatedDietInfo = await DietInfo.findOneAndUpdate(
+      { userId: req.params.id },
+      req.body,
+      { new: true }
+    );
+
     res.status(200).json({
       status: true,
       message: "Diet info updated successfully",
-      dietInfo,
+      dietInfo: updatedDietInfo,
     });
   } catch (error) {
     res.status(500).json({ status: false, message: error.message });

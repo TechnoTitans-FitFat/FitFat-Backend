@@ -1,5 +1,5 @@
 const Restaurant = require("../models/Restaurant");
-
+const { searchHistory } = require("../middleware/searchHistory");
 module.exports = {
   // addRestaurant: async (req, res) => {
   //   const newRestaurant = new Restaurant(req.body);
@@ -47,7 +47,7 @@ module.exports = {
           .status(404)
           .json({ status: false, message: "Restaurant not found" });
       }
-      restaurant.isAvailable = !restaurant.isAvailable;
+      // restaurant.isAvailable = !restaurant.isAvailable;
 
       await restaurant.save();
       res.status(200).json({
@@ -111,6 +111,9 @@ module.exports = {
 
   searchRestaurant: async (req, res) => {
     const title = req.query.title;
+    if (!title) {
+      return res.status(200).json({ searchHistory });
+    }
 
     try {
       const restaurants = await Restaurant.find({

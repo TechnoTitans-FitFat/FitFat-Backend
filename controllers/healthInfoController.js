@@ -32,20 +32,15 @@ exports.getHealthInfo = async (req, res) => {
 };
 
 exports.updateHealthInfo = async (req, res) => {
-  // const userId = req.params.id; // Health Info ID
-  // const updateData = req.body; // Fields to update
-
-  //   console.log("Health Info ID:", userId); // Log the ID
-  //   console.log("Update Data:", updateData); // Log the update data
+  const userId = req.params.id;
+  const updateData = req.body;
 
   try {
-    const updatedHealthInfo = await HealthInfo.findByIdAndUpdate(
-      userId,
+    const updatedHealthInfo = await HealthInfo.findOneAndUpdate(
+      { userId },
       updateData,
       { new: true }
     );
-
-    console.log("Updated Health Info:", updatedHealthInfo);
 
     if (!updatedHealthInfo) {
       return res
