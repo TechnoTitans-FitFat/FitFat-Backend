@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
 
-const tokenBlacklist = new Set(); // Store blacklisted tokens in-memory
-
+const tokenBlacklist = new Set();
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (authHeader) {
     const token = authHeader.split(" ")[1];
 
-    // Check if token is blacklisted (logged out)
     if (tokenBlacklist.has(token)) {
       return res.status(403).json({
         status: false,
@@ -40,7 +38,7 @@ const logoutUser = (req, res) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
-    tokenBlacklist.add(token); // Add token to blacklist
+    tokenBlacklist.add(token);
     return res.status(200).json({
       status: true,
       message: "User logged out successfully",
