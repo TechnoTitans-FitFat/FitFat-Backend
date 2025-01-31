@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
     healthInfo: { type: mongoose.Schema.Types.ObjectId, ref: "Healthinfo" },
 
     address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "recipe" }],
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
     phone: { type: String, required: false },
     profile: {
       type: String,
