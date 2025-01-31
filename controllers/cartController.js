@@ -1,5 +1,7 @@
 const Cart = require("../models/Cart");
 const Recipe = require("../models/recipe");
+const User = require("../models/User");
+const DietInfo = require("../models/Dietinfo");
 
 module.exports = {
   addProductToCart: async (req, res) => {
@@ -197,6 +199,43 @@ module.exports = {
       });
     } catch (error) {
       return res.status(500).json({ status: false, message: error.message });
+    }
+  },
+
+  calculateAndFetchCalorieDifference: async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+      const dietInfo = await DietInfo.findOne({ userId });
+      if (!dietInfo) {
+        return res.status(404).json({
+          status: false,
+          message: "Diet information not found for this user",
+        });
+      }
+
+      const cartItems = await Cart.find({ UserId: userId });
+      const totalCaloriesInCart = cartItems.reduce(
+        (sum, item) => sum + item.totalCalories,
+        0
+      );
+
+      const dietGoalCalories = dietInfo.macronutrientGoals.calories;
+
+      const calorieDifference = dietGoalCalories - totalCaloriesInCart;
+      await User.findByIdAndUpdate(userId, {
+        $set: { calorieDifference },
+      });
+
+      res.status(200).json({
+        status: true,
+        message: "Calorie difference calculated and fetched successfully",
+        calorieDifference,
+        dietGoalCalories,
+        totalCaloriesInCart,
+      });
+    } catch (error) {
+      res.status(500).json({ status: false, message: error.message });
     }
   },
 };

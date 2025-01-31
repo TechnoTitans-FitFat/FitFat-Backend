@@ -18,4 +18,9 @@ router.get("/", verifyAndAuthorization, cartController.fetchUserCart);
 router.get("/count", verifyAndAuthorization, cartController.getCartCount);
 router.delete("/clear", verifyAndAuthorization, cartController.clearUserCart);
 
+router.post(
+  "/calories/difference",
+  verifyAndAuthorization,
+  cartController.calculateAndFetchCalorieDifference
+);
 module.exports = router;
