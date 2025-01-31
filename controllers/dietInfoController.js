@@ -4,16 +4,20 @@ exports.createDietInfo = async (req, res) => {
   try {
     const dietInfo = new DietInfo(req.body);
     await dietInfo.save();
+
     res.status(201).json({
       status: true,
       message: "Diet info created successfully",
       dietInfo,
     });
+
     await User.findByIdAndUpdate(req.user.id, {
       $push: { dietInfo: dietInfo._id },
     });
   } catch (error) {
-    res.status(500).json({ status: false, message: error.message });
+    if (!res.headersSent) {
+      res.status(500).json({ status: false, message: error.message });
+    }
   }
 };
 
