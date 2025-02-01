@@ -19,6 +19,7 @@ const driverRouter = require("./routes/driver");
 const healthInfoRouter = require("./routes/healthInfo");
 const dietInfoRouter = require("./routes/dietInfo");
 const favoriteRoutes = require("./routes/favoriteRoutes");
+const calorieRoutes = require("./routes/calorieRoutes");
 
 dotenv.config();
 const admin = require("firebase-admin");
@@ -52,7 +53,7 @@ app.use("/api/driver", driverRouter);
 app.use("/api/healthInfo", healthInfoRouter);
 app.use("/api/dietInfo", dietInfoRouter);
 app.use("/api/favorites", favoriteRoutes);
-
+app.use("/api/calories", calorieRoutes);
 app.listen(process.env.PORT || port, () =>
   console.log(`Listening on port ${process.env.PORT || port}`)
 );
