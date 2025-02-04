@@ -4,16 +4,29 @@ const { searchHistory } = require("../middleware/searchHistory");
 module.exports = {
   getAllRecipes: async (req, res) => {
     try {
-      const { page = 1, limit = 10 } = req.query;
+      const { page = 1, limit = 10, type, category, diabetes } = req.query;
       const skip = (page - 1) * limit;
+
+      let filter = {};
+      if (type) filter.type = { $in: type.split(",") };
+      if (category) filter.category = { $in: category.split(",") };
+
+      if (diabetes !== undefined) {
+        filter.diabetes = diabetes === "true";
+      }
 
       //note: we need to determine how many documents to skip before fetching the next set of results.
       // This is where the skip calculation comes in.!!
 
-      const recipes = await Recipe.find({}).skip(skip).limit(parseInt(limit));
-      const totalRecipes = await Recipe.countDocuments();
+      const recipes = await Recipe.find(filter)
+        .skip(skip)
+        .limit(parseInt(limit));
 
-      const updatedRecipes = await res.locals.addFields(recipes);
+      const totalRecipes = await Recipe.countDocuments(filter);
+
+      const updatedRecipes = res.locals.addFields
+        ? await res.locals.addFields(recipes)
+        : recipes;
 
       res.status(200).json({
         totalRecipes,
@@ -28,23 +41,28 @@ module.exports = {
   },
 
   searchRecipes: async (req, res) => {
-    const { name, page = 1, limit = 10 } = req.query;
+    const { name, type, category, page = 1, limit = 10, diabetes } = req.query;
     const skip = (page - 1) * limit;
 
-    if (!name) {
+    let filter = { name: { $regex: name, $options: "i" } };
+
+    if (type) filter.type = { $in: type.split(",") };
+    if (category) filter.category = { $in: category.split(",") };
+
+    if (diabetes !== undefined) {
+      filter.diabetes = diabetes === "true";
+    }
+
+    if (!name && !type && !category) {
       return res.status(200).json({ searchHistory });
     }
 
     try {
-      const recipes = await Recipe.find({
-        name: { $regex: name, $options: "i" },
-      })
+      const recipes = await Recipe.find(filter)
         .skip(skip)
         .limit(parseInt(limit));
 
-      const totalRecipes = await Recipe.countDocuments({
-        name: { $regex: name, $options: "i" },
-      });
+      const totalRecipes = await Recipe.countDocuments(filter);
 
       if (recipes.length === 0) {
         return res.status(404).json({ message: "No recipes found" });
