@@ -20,6 +20,32 @@ const recipeSchema = new mongoose.Schema({
   },
   cookingTime: { type: String, required: true },
   ratingCount: { type: String },
+  diabetes: {
+    type: Boolean,
+    default: false,
+  },
+  type: {
+    type: [String],
+    enum: ["High-Carb", "Low-Carb", "Vegan", "Keto"],
+  },
+  category: {
+    type: [String],
+    enum: [
+      "Breakfast",
+      "Lunch",
+      "Dinner",
+      "Dessert",
+      "Drink",
+      "Soup",
+      "Salad",
+      "Meat",
+      "Chicken",
+    ],
+  },
+  allergy: {
+    type: [String],
+    enum: ["Lactose", "Peanuts", "Shellfish", "Wheat", "None"],
+  },
 });
 
 //It became middleware to use it on diffrent files -> ( addFields )
