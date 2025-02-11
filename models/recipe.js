@@ -23,6 +23,8 @@ const recipeSchema = new mongoose.Schema({
   diabetes: {
     type: Boolean,
     default: false,
+    //if the recipe is for diabets people = true
+    //if not diabets people = false
   },
 
   category: {
@@ -31,11 +33,11 @@ const recipeSchema = new mongoose.Schema({
   },
   diet: {
     type: [String],
-    enum: ["High-Carb", "Low-Carb", "Vegan", "Keto"],
+    enum: ["high-carb", "low-carb", "vegan", "keto", "none"],
   },
   allergy: {
     type: [String],
-    enum: ["Lactose", "Peanuts", "Shellfish", "Wheat", "None"],
+    enum: ["lactose", "peanuts", "shellfish", "wheat", "none"],
   },
   class: {
     type: [String],
