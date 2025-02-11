@@ -24,27 +24,26 @@ const recipeSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  type: {
-    type: [String],
-    enum: ["High-Carb", "Low-Carb", "Vegan", "Keto"],
-  },
+
   category: {
     type: [String],
-    enum: [
-      "Breakfast",
-      "Lunch",
-      "Dinner",
-      "Dessert",
-      "Drink",
-      "Soup",
-      "Salad",
-      "Meat",
-      "Chicken",
-    ],
+    enum: ["diet", "allergy", "diabetes", "home"],
+  },
+  diet: {
+    type: [String],
+    enum: ["High-Carb", "Low-Carb", "Vegan", "Keto"],
   },
   allergy: {
     type: [String],
     enum: ["Lactose", "Peanuts", "Shellfish", "Wheat", "None"],
+  },
+  class: {
+    type: [String],
+    enum: ["Breakfast", "Lunch", "Dinner"],
+  },
+  type: {
+    type: [String],
+    enum: ["Dessert", "Drink", "Soup", "Salad", "Meat", "Chicken"],
   },
 });
 
