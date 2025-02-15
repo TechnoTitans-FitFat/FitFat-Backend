@@ -22,12 +22,6 @@ const favoriteRoutes = require("./routes/favoriteRoutes");
 const calorieRoutes = require("./routes/calorieRoutes");
 
 dotenv.config();
-const admin = require("firebase-admin");
-
-const serviceAccount = require("./ServicesAccount.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -40,6 +34,7 @@ app.get("/", (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/restaurant", restaurantRouter);
@@ -54,6 +49,7 @@ app.use("/api/healthInfo", healthInfoRouter);
 app.use("/api/dietInfo", dietInfoRouter);
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/calories", calorieRoutes);
+
 app.listen(process.env.PORT || port, () =>
   console.log(`Listening on port ${process.env.PORT || port}`)
 );
