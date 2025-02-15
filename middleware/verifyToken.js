@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const tokenBlacklist = new Set();
+
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 

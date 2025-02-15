@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const admin = require("firebase-admin");
 const User = require("../models/User");
 
 module.exports = {
@@ -26,6 +25,7 @@ module.exports = {
         )}`,
       });
     }
+
     const allowedUserTypes = ["Admin", "Driver", "Client", "Vendor"];
     if (!allowedUserTypes.includes(userType)) {
       return res.status(400).json({
@@ -36,53 +36,38 @@ module.exports = {
     }
 
     try {
-      await admin.auth().getUserByEmail(email);
-      return res.status(400).json({ message: "Email already registered" });
-    } catch (error) {
-      if (error.code === "auth/user-not-found") {
-        try {
-          const firebaseUser = await admin.auth().createUser({
-            email,
-            password,
-            emailVerified: false,
-            disabled: false,
-          });
-
-          const hashedPassword = await bcrypt.hash(password, 10);
-
-          const newUser = new User({
-            username,
-            email,
-            password: hashedPassword,
-            uid: firebaseUser.uid,
-            userType: "Vendor",
-            dietType,
-            dateOfBirth,
-            genders,
-            weight,
-            height,
-            phone,
-          });
-
-          await newUser.save();
-
-          return res.status(201).json({
-            status: true,
-            message: "User created successfully",
-            userId: newUser._id,
-          });
-        } catch (dbError) {
-          return res.status(500).json({
-            message: "Error saving user to database",
-            error: dbError.message,
-          });
-        }
-      } else {
-        return res.status(500).json({
-          message: "Error checking user existence",
-          error: error.message,
-        });
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ message: "Email already registered" });
       }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        userType: "Client",
+        dietType,
+        dateOfBirth,
+        genders,
+        weight,
+        height,
+        phone,
+      });
+
+      await newUser.save();
+
+      return res.status(201).json({
+        status: true,
+        message: "User created successfully",
+        userId: newUser._id,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Error saving user to database",
+        error: error.message,
+      });
     }
   },
 
@@ -110,9 +95,10 @@ module.exports = {
       const { password: _, ...userData } = user._doc;
       res.status(200).json({ ...userData, token });
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Error logging in", error: error.message });
+      res.status(500).json({
+        message: "Error logging in",
+        error: error.message,
+      });
     }
   },
 };
