@@ -2,8 +2,20 @@ const HealthInfo = require("../models/Healthinfo");
 
 exports.createHealthInfo = async (req, res) => {
   try {
+    const userId = req.user.id;
+
+    const existingHealthInfo = await HealthInfo.findOne({ userId });
+    if (existingHealthInfo) {
+      return res.status(400).json({
+        status: false,
+        message: "Health info already exists for this user",
+      });
+    }
+
+    req.body.userId = userId;
     const healthInfo = new HealthInfo(req.body);
     await healthInfo.save();
+
     res.status(201).json({
       status: true,
       message: "Health info created successfully",
@@ -15,15 +27,15 @@ exports.createHealthInfo = async (req, res) => {
 };
 
 exports.getHealthInfo = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user.id;
 
   try {
     const healthInfo = await HealthInfo.findOne({ userId });
-
     if (!healthInfo) {
-      return res
-        .status(404)
-        .json({ status: false, message: "Health info not found" });
+      return res.status(404).json({
+        status: false,
+        message: "Health info not found",
+      });
     }
     res.status(200).json({ status: true, healthInfo });
   } catch (error) {
@@ -32,7 +44,7 @@ exports.getHealthInfo = async (req, res) => {
 };
 
 exports.updateHealthInfo = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user.id;
   const updateData = req.body;
 
   try {
@@ -43,9 +55,10 @@ exports.updateHealthInfo = async (req, res) => {
     );
 
     if (!updatedHealthInfo) {
-      return res
-        .status(404)
-        .json({ status: false, message: "Health info not found" });
+      return res.status(404).json({
+        status: false,
+        message: "Health info not found",
+      });
     }
 
     res.status(200).json({
@@ -54,7 +67,6 @@ exports.updateHealthInfo = async (req, res) => {
       healthInfo: updatedHealthInfo,
     });
   } catch (error) {
-    console.error("Error:", error);
     res.status(500).json({ status: false, message: error.message });
   }
 };

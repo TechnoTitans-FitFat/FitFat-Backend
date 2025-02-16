@@ -17,14 +17,14 @@ module.exports = {
       phone,
     } = req.body;
 
-    const allowedDietTypes = ["High-Carb", "Low-Carb", "Vegan", "Ceto"];
-    if (!allowedDietTypes.includes(dietType)) {
-      return res.status(400).json({
-        message: `Invalid diet type. Choose one of: ${allowedDietTypes.join(
-          ", "
-        )}`,
-      });
-    }
+    // const allowedDietTypes = ["High-Carb", "Low-Carb", "Vegan", "Ceto"];
+    // if (!allowedDietTypes.includes(dietType)) {
+    //   return res.status(400).json({
+    //     message: `Invalid diet type. Choose one of: ${allowedDietTypes.join(
+    //       ", "
+    //     )}`,
+    //   });
+    // }
 
     const allowedUserTypes = ["Admin", "Driver", "Client", "Vendor"];
     if (!allowedUserTypes.includes(userType)) {

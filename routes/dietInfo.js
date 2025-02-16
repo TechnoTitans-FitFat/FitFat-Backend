@@ -3,8 +3,8 @@ const router = express.Router();
 const dietInfoController = require("../controllers/dietInfoController");
 const { verifyToken } = require("../middleware/verifyToken");
 
-router.post("/", dietInfoController.createDietInfo);
-router.put("/:id", dietInfoController.updateDietInfo);
-router.get("/:id", verifyToken, dietInfoController.getDietInfo);
+router.post("/", verifyToken, dietInfoController.createDietInfo);
+router.get("/", verifyToken, dietInfoController.getDietInfo);
+router.put("/", verifyToken, dietInfoController.updateDietInfo);
 
 module.exports = router;
