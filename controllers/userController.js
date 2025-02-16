@@ -10,9 +10,10 @@ module.exports = {
         createdAt: 0,
         updatedAt: 0,
         dietType: 0,
-      }).populate("address");
-      //.populate("dietInfo")
-      //.populate("healthInfo")
+      })
+        .populate("address")
+        .populate("healthInfo")
+        .populate("dietInfo");
 
       if (!user) {
         return res.status(404).json({ message: "User not found" });

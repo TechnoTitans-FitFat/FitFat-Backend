@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
       enum: ["Admin", "Driver", "Client", "Vendor"],
     },
     healthInfo: { type: mongoose.Schema.Types.ObjectId, ref: "HealthInfo" },
+    dietInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "DietInfo" }],
     address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
     phone: { type: String },
