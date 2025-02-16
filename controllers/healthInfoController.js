@@ -1,4 +1,5 @@
 const HealthInfo = require("../models/Healthinfo");
+const User = require("../models/User");
 
 exports.createHealthInfo = async (req, res) => {
   try {
@@ -15,6 +16,10 @@ exports.createHealthInfo = async (req, res) => {
     req.body.userId = userId;
     const healthInfo = new HealthInfo(req.body);
     await healthInfo.save();
+
+    await User.findByIdAndUpdate(userId, {
+      $push: { healthInfo: healthInfo._id },
+    });
 
     res.status(201).json({
       status: true,
