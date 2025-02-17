@@ -3,6 +3,9 @@ const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+//const passport = require("passport");
+const session = require("express-session");
+const passport = require("./config/passport");
 
 const port = 6002;
 
@@ -21,6 +24,10 @@ const dietInfoRouter = require("./routes/dietInfo");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const calorieRoutes = require("./routes/calorieRoutes");
 
+//google routes
+
+const googleAuthRouter = require("./routes/GoogleAuthRoutes");
+
 dotenv.config();
 
 mongoose
@@ -34,6 +41,18 @@ app.get("/", (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use("/auth/google", googleAuthRouter);
 
 app.use("/", authRouter);
 app.use("/api/users", userRouter);
