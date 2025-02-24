@@ -53,9 +53,8 @@ module.exports = {
         filter.diabetes = diabetes === "true";
       }
 
-      //console.log("getAllRecipes filter:", filter);
-
       const recipes = await Recipe.find(filter)
+        .select("_id name image calories price")
         .skip(skip)
         .limit(parseInt(limit));
 
@@ -130,13 +129,11 @@ module.exports = {
     if (!name && !type && !category && !diet && !allergy && !recipeClass) {
       return res.status(200).json({ searchHistory });
     }
-
-    //console.log("searchRecipes filter:", filter);
-
     //note: we need to determine how many documents to skip before fetching the next set of results.
     // This is where the skip calculation comes in.!!
     try {
       const recipes = await Recipe.find(filter)
+        .select("_id name image calories price ")
         .skip(skip)
         .limit(parseInt(limit));
 
@@ -156,6 +153,22 @@ module.exports = {
         currentPage: parseInt(page),
         recipes: updatedRecipes,
       });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  },
+
+  getRecipeById: async (req, res) => {
+    try {
+      const recipe = await Recipe.findById(req.params.id);
+      if (!recipe) {
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+      const updatedRecipe = res.locals.addFields
+        ? await res.locals.addFields(recipe)
+        : recipe;
+      res.status(200).json(updatedRecipe);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Server error" });

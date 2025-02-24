@@ -7,7 +7,7 @@ const { trackSearchHistory } = require("../middleware/searchHistory");
 router.use(addFields);
 
 router.get("/", recipeController.getAllRecipes);
-
 router.get("/search", trackSearchHistory, recipeController.searchRecipes);
+router.get("/:id", recipeController.getRecipeById);
 
 module.exports = router;
