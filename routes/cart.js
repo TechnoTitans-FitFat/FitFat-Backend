@@ -10,7 +10,7 @@ router.post(
   cartController.decrementProductQty
 );
 router.delete(
-  "/delete/:id",
+  "/delete",
   verifyAndAuthorization,
   cartController.removeProductFromCart
 );
