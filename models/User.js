@@ -19,8 +19,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       default:
-        "https://drive.google.com/file/d/1OXKBtXmOGFhR-tTqWFm-aNAlDIq_UmUS/view?usp=sharing",
+        "https://res.cloudinary.com/djqyhkpq8/image/upload/v1740751386/user-removebg-preview_isr57q.png",
     },
+    // isVerified: { type: Boolean, default: false },
+    // verificationCode: { type: String },
+    // verificationCodeExpires: { type: Date },
   },
   { timestamps: true }
 );
