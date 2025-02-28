@@ -67,19 +67,27 @@ module.exports = {
   },
 
   removeProductFromCart: async (req, res) => {
-    const itemId = req.params.id;
     const userId = req.user.id;
+    const { productId } = req.body;
+
+    if (!productId) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Product ID is required" });
+    }
 
     try {
-      const cartItem = await Cart.findById(itemId);
-
+      const cartItem = await Cart.findOne({
+        UserId: userId,
+        productId: productId.trim(),
+      });
       if (!cartItem) {
         return res
           .status(404)
           .json({ status: false, message: "Product not found in cart" });
       }
 
-      await Cart.findByIdAndDelete(itemId);
+      await Cart.findByIdAndDelete(cartItem._id);
 
       const cartItems = await Cart.find({ UserId: userId });
       const count = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -221,8 +229,8 @@ module.exports = {
       );
 
       const dietGoalCalories = dietInfo.macronutrientGoals.calories;
-
       const calorieDifference = dietGoalCalories - totalCaloriesInCart;
+
       await User.findByIdAndUpdate(userId, {
         $set: { calorieDifference },
       });
