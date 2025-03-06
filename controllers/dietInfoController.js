@@ -1,4 +1,5 @@
-const DietInfo = require("../models/Dietinfo");
+const DietInfo = require("../models/dietInfo");
+
 const User = require("../models/User");
 
 exports.createDietInfo = async (req, res) => {
@@ -12,7 +13,8 @@ exports.createDietInfo = async (req, res) => {
   }
 
   try {
-    const existingDietInfo = await DietInfo.findOne({ userId: req.user.id });
+    const userId = req.params.userId;
+    const existingDietInfo = await DietInfo.findOne({ userId });
     if (existingDietInfo) {
       return res.status(400).json({
         status: false,
@@ -20,11 +22,11 @@ exports.createDietInfo = async (req, res) => {
       });
     }
 
-    req.body.userId = req.user.id;
+    req.body.userId = userId;
     const dietInfo = new DietInfo(req.body);
     await dietInfo.save();
 
-    await User.findByIdAndUpdate(req.user.id, {
+    await User.findByIdAndUpdate(userId, {
       $push: { dietInfo: dietInfo._id },
     });
 
@@ -39,8 +41,7 @@ exports.createDietInfo = async (req, res) => {
 };
 
 exports.getDietInfo = async (req, res) => {
-  const userId = req.user.id;
-
+  const userId = req.params.userId;
   try {
     const dietInfo = await DietInfo.findOne({ userId });
     if (!dietInfo) {
@@ -56,8 +57,7 @@ exports.getDietInfo = async (req, res) => {
 };
 
 exports.updateDietInfo = async (req, res) => {
-  const userId = req.user.id;
-
+  const userId = req.params.userId;
   try {
     const dietInfo = await DietInfo.findOne({ userId });
     if (!dietInfo) {
@@ -66,13 +66,11 @@ exports.updateDietInfo = async (req, res) => {
         message: "Diet info not found for this user",
       });
     }
-
     const updatedDietInfo = await DietInfo.findOneAndUpdate(
       { userId },
       req.body,
       { new: true }
     );
-
     res.status(200).json({
       status: true,
       message: "Diet info updated successfully",
