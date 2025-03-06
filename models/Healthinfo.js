@@ -17,5 +17,4 @@ const healthInfoSchema = new mongoose.Schema({
   targetBloodSugarRange: { min: Number, max: Number },
 });
 
-module.exports =
-  mongoose.models.HealthInfo || mongoose.model("HealthInfo", healthInfoSchema);
+module.exports = mongoose.model("HealthInfo", healthInfoSchema);
