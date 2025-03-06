@@ -1,5 +1,4 @@
-const DietInfo = require("../models/dietInfo");
-
+const DietInfo = require("../models/Dietinfo");
 const User = require("../models/User");
 
 exports.createDietInfo = async (req, res) => {

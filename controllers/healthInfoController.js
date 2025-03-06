@@ -1,4 +1,4 @@
-const HealthInfo = require("../models/healthInfo");
+const HealthInfo = require("../models/Healthinfo");
 const User = require("../models/User");
 
 exports.createHealthInfo = async (req, res) => {
