@@ -1,9 +1,9 @@
-const HealthInfo = require("../models/Healthinfo");
+const HealthInfo = require("../models/healthInfo");
 const User = require("../models/User");
 
 exports.createHealthInfo = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.params.userId;
 
     const existingHealthInfo = await HealthInfo.findOne({ userId });
     if (existingHealthInfo) {
@@ -32,7 +32,7 @@ exports.createHealthInfo = async (req, res) => {
 };
 
 exports.getHealthInfo = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.params.userId;
 
   try {
     const healthInfo = await HealthInfo.findOne({ userId });
@@ -49,7 +49,7 @@ exports.getHealthInfo = async (req, res) => {
 };
 
 exports.updateHealthInfo = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.params.userId;
   const updateData = req.body;
 
   try {
