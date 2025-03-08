@@ -1,5 +1,7 @@
 const Recipe = require("../models/recipe");
 const { searchHistory } = require("../middleware/searchHistory");
+const DietInfo = require("../models/Dietinfo");
+const HealthInfo = require("../models/Healthinfo");
 
 module.exports = {
   getAllRecipes: async (req, res) => {
@@ -134,6 +136,86 @@ module.exports = {
     try {
       const recipes = await Recipe.find(filter)
         .select("_id name image calories price ")
+        .skip(skip)
+        .limit(parseInt(limit));
+
+      const totalRecipes = await Recipe.countDocuments(filter);
+
+      if (recipes.length === 0) {
+        return res.status(404).json({ message: "No recipes found" });
+      }
+
+      const updatedRecipes = res.locals.addFields
+        ? await res.locals.addFields(recipes)
+        : recipes;
+
+      res.status(200).json({
+        totalRecipes,
+        totalPages: Math.ceil(totalRecipes / limit),
+        currentPage: parseInt(page),
+        recipes: updatedRecipes,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  },
+
+  getRecipesByUserPreferences: async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const { page = 1, limit = 10 } = req.query;
+      const skip = (page - 1) * limit;
+
+      const dietInfo = await DietInfo.findOne({ userId });
+      const healthInfo = await HealthInfo.findOne({ userId });
+
+      if (!dietInfo || !healthInfo) {
+        return res.status(404).json({
+          message: "Diet or health information not found for the user",
+        });
+      }
+
+      const dietTypeMapping = {
+        "High-Carb": "high-carb",
+        "Low-Carb": "low-carb",
+        Vegan: "vegan",
+        Keto: "keto",
+      };
+      const mappedDietType = dietTypeMapping[dietInfo.dietType] || "none";
+
+      const recommendedCalories = dietInfo.macronutrientGoals?.calories;
+      const isDiabetic = healthInfo.diabetes;
+
+      let normalizedMealPreferences = [];
+      if (dietInfo.mealPreferences && dietInfo.mealPreferences.length > 0) {
+        normalizedMealPreferences = dietInfo.mealPreferences.map(
+          (pref) => pref.charAt(0).toUpperCase() + pref.slice(1).toLowerCase()
+        );
+      }
+
+      let filter = {};
+
+      filter.diet = { $all: [new RegExp(`^${mappedDietType}$`, "i")] };
+
+      if (recommendedCalories) {
+        filter.calories = { $lte: recommendedCalories };
+      }
+
+      if (isDiabetic) {
+        filter.diabetes = true;
+      }
+
+      if (normalizedMealPreferences.length > 0) {
+        filter.class = {
+          $in: normalizedMealPreferences.map(
+            (pref) => new RegExp(`^${pref}$`, "i")
+          ),
+        };
+      }
+
+      const recipes = await Recipe.find(filter)
+        .select("_id name image calories price")
         .skip(skip)
         .limit(parseInt(limit));
 

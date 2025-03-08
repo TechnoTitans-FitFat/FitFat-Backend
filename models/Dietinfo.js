@@ -20,4 +20,6 @@ const dietInfoSchema = new mongoose.Schema({
   mealPreferences: [{ type: String }],
 });
 
-module.exports = mongoose.model("DietInfo", dietInfoSchema);
+const DietInfo =
+  mongoose.models.DietInfo || mongoose.model("DietInfo", dietInfoSchema);
+module.exports = DietInfo;

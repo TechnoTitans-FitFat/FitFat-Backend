@@ -2,11 +2,7 @@ const mongoose = require("mongoose");
 
 const healthInfoSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  gender: {
-    type: String,
-    required: true,
-    enum: ["female", "male"],
-  },
+  gender: { type: String, required: true, enum: ["female", "male"] },
   dateOfBirth: { type: Date, required: true },
   weight: { type: Number, required: true },
   height: { type: Number, required: true },
@@ -17,4 +13,6 @@ const healthInfoSchema = new mongoose.Schema({
   targetBloodSugarRange: { min: Number, max: Number },
 });
 
-module.exports = mongoose.model("HealthInfo", healthInfoSchema);
+const HealthInfo =
+  mongoose.models.HealthInfo || mongoose.model("HealthInfo", healthInfoSchema);
+module.exports = HealthInfo;
