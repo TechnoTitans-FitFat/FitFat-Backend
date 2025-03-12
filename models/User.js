@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema(
       default: "Client",
       enum: ["Admin", "Driver", "Client", "Vendor"],
     },
+
+    isVerified: { type: Boolean, default: false },
+    verificationCode: { type: String },
+    verificationCodeExpires: { type: Date },
+    resetPasswordCode: { type: String },
+    resetPasswordExpires: { type: Date },
     healthInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "HealthInfo" }],
     dietInfo: [{ type: mongoose.Schema.Types.ObjectId, ref: "DietInfo" }],
     address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
@@ -21,9 +27,6 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/djqyhkpq8/image/upload/v1740751386/user-removebg-preview_isr57q.png",
     },
-    // isVerified: { type: Boolean, default: false },
-    // verificationCode: { type: String },
-    // verificationCodeExpires: { type: Date },
   },
   { timestamps: true }
 );
