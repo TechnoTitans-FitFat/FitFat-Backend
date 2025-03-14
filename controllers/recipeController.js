@@ -56,21 +56,29 @@ module.exports = {
       }
 
       const recipes = await Recipe.find(filter)
-        .select("_id name image calories price")
+        .select("_id name image calories price rating cookingTime")
         .skip(skip)
         .limit(parseInt(limit));
 
       const totalRecipes = await Recipe.countDocuments(filter);
 
-      const updatedRecipes = res.locals.addFields
-        ? await res.locals.addFields(recipes)
-        : recipes;
+      // const updatedRecipes = res.locals.addFields
+      //   ? await res.locals.addFields(recipes)
+      //   : recipes;
+      const recipesWithDefaults = recipes.map((recipe) => {
+        const recipeObj = recipe.toObject();
+        recipeObj.rating =
+          recipeObj.rating || Math.floor(Math.random() * 5) + 1;
+        recipeObj.cookingTime =
+          recipeObj.cookingTime || `${Math.floor(Math.random() * 46) + 15} min`;
+        return recipeObj;
+      });
 
       res.status(200).json({
         totalRecipes,
         totalPages: Math.ceil(totalRecipes / limit),
         currentPage: parseInt(page),
-        recipes: updatedRecipes,
+        recipes: recipesWithDefaults,
       });
     } catch (error) {
       console.error(error);
@@ -131,11 +139,9 @@ module.exports = {
     if (!name && !type && !category && !diet && !allergy && !recipeClass) {
       return res.status(200).json({ searchHistory });
     }
-    //note: we need to determine how many documents to skip before fetching the next set of results.
-    // This is where the skip calculation comes in.!!
     try {
       const recipes = await Recipe.find(filter)
-        .select("_id name image calories price ")
+        .select("_id name image calories price rating cookingTime")
         .skip(skip)
         .limit(parseInt(limit));
 
@@ -145,9 +151,10 @@ module.exports = {
         return res.status(404).json({ message: "No recipes found" });
       }
 
-      const updatedRecipes = res.locals.addFields
-        ? await res.locals.addFields(recipes)
-        : recipes;
+      // const updatedRecipes = res.locals.addFields
+      //   ? await res.locals.addFields(recipes)
+      //   : recipes;
+      const updatedRecipes = recipes;
 
       res.status(200).json({
         totalRecipes,
@@ -215,7 +222,7 @@ module.exports = {
       }
 
       const recipes = await Recipe.find(filter)
-        .select("_id name image calories price")
+        .select("_id name image calories price rating cookingTime")
         .skip(skip)
         .limit(parseInt(limit));
 
@@ -225,9 +232,10 @@ module.exports = {
         return res.status(404).json({ message: "No recipes found" });
       }
 
-      const updatedRecipes = res.locals.addFields
-        ? await res.locals.addFields(recipes)
-        : recipes;
+      // const updatedRecipes = res.locals.addFields
+      //   ? await res.locals.addFields(recipes)
+      //   : recipes;
+      const updatedRecipes = recipes;
 
       res.status(200).json({
         totalRecipes,
@@ -247,9 +255,10 @@ module.exports = {
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
-      const updatedRecipe = res.locals.addFields
-        ? await res.locals.addFields(recipe)
-        : recipe;
+      // const updatedRecipe = res.locals.addFields
+      //   ? await res.locals.addFields(recipe)
+      //   : recipe;
+      const updatedRecipe = recipe;
       res.status(200).json(updatedRecipe);
     } catch (error) {
       console.error(error);

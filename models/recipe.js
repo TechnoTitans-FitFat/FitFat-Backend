@@ -18,7 +18,7 @@ const recipeSchema = new mongoose.Schema({
     min: 1,
     max: 5,
   },
-  cookingTime: { type: String, required: true },
+  cookingTime: { type: Number, required: true },
   ratingCount: { type: String },
   diabetes: {
     type: Boolean,
