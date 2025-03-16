@@ -15,45 +15,65 @@ module.exports = {
         diet,
         allergy,
         recipeClass,
+        rating,
       } = req.query;
       const skip = (page - 1) * limit;
 
-      let filter = {};
+      let conditions = [];
 
-      if (type)
-        filter.type = {
-          $all: type
-            .split(",")
-            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-        };
-      if (category)
-        filter.category = {
-          $all: category
-            .split(",")
-            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-        };
-      if (diet)
-        filter.diet = {
-          $all: diet
-            .split(",")
-            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-        };
-      if (allergy)
-        filter.allergy = {
-          $all: allergy
-            .split(",")
-            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-        };
-      if (recipeClass)
-        filter.class = {
-          $all: recipeClass
-            .split(",")
-            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-        };
-
-      if (diabetes !== undefined) {
-        filter.diabetes = diabetes === "true";
+      if (type) {
+        conditions.push({
+          type: {
+            $all: type
+              .split(",")
+              .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+          },
+        });
       }
+      if (category) {
+        conditions.push({
+          category: {
+            $all: category
+              .split(",")
+              .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+          },
+        });
+      }
+      if (diet) {
+        conditions.push({
+          diet: {
+            $all: diet
+              .split(",")
+              .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+          },
+        });
+      }
+      if (allergy) {
+        conditions.push({
+          allergy: {
+            $all: allergy
+              .split(",")
+              .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+          },
+        });
+      }
+      if (recipeClass) {
+        conditions.push({
+          class: {
+            $all: recipeClass
+              .split(",")
+              .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+          },
+        });
+      }
+      if (diabetes !== undefined) {
+        conditions.push({ diabetes: diabetes === "true" });
+      }
+      if (rating) {
+        conditions.push({ rating: Number(rating) });
+      }
+
+      const filter = conditions.length ? { $and: conditions } : {};
 
       const recipes = await Recipe.find(filter)
         .select("_id name image calories price rating cookingTime")
@@ -62,9 +82,6 @@ module.exports = {
 
       const totalRecipes = await Recipe.countDocuments(filter);
 
-      // const updatedRecipes = res.locals.addFields
-      //   ? await res.locals.addFields(recipes)
-      //   : recipes;
       const recipesWithDefaults = recipes.map((recipe) => {
         const recipeObj = recipe.toObject();
         recipeObj.rating =
@@ -100,41 +117,61 @@ module.exports = {
     } = req.query;
     const skip = (page - 1) * limit;
 
-    let filter = {};
+    let conditions = [];
 
     if (name) {
-      filter.name = { $regex: name, $options: "i" };
+      conditions.push({ name: { $regex: name, $options: "i" } });
     }
-    if (type)
-      filter.type = {
-        $all: type.split(",").map((val) => new RegExp(`^${val.trim()}$`, "i")),
-      };
-    if (category)
-      filter.category = {
-        $all: category
-          .split(",")
-          .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-      };
-    if (diet)
-      filter.diet = {
-        $all: diet.split(",").map((val) => new RegExp(`^${val.trim()}$`, "i")),
-      };
-    if (allergy)
-      filter.allergy = {
-        $all: allergy
-          .split(",")
-          .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-      };
-    if (recipeClass)
-      filter.class = {
-        $all: recipeClass
-          .split(",")
-          .map((val) => new RegExp(`^${val.trim()}$`, "i")),
-      };
-
+    if (type) {
+      conditions.push({
+        type: {
+          $all: type
+            .split(",")
+            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+        },
+      });
+    }
+    if (category) {
+      conditions.push({
+        category: {
+          $all: category
+            .split(",")
+            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+        },
+      });
+    }
+    if (diet) {
+      conditions.push({
+        diet: {
+          $all: diet
+            .split(",")
+            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+        },
+      });
+    }
+    if (allergy) {
+      conditions.push({
+        allergy: {
+          $all: allergy
+            .split(",")
+            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+        },
+      });
+    }
+    if (recipeClass) {
+      conditions.push({
+        class: {
+          $all: recipeClass
+            .split(",")
+            .map((val) => new RegExp(`^${val.trim()}$`, "i")),
+        },
+      });
+    }
     if (diabetes !== undefined) {
-      filter.diabetes = diabetes === "true";
+      conditions.push({ diabetes: diabetes === "true" });
     }
+
+    const filter = conditions.length ? { $and: conditions } : {};
 
     if (!name && !type && !category && !diet && !allergy && !recipeClass) {
       return res.status(200).json({ searchHistory });
@@ -151,16 +188,11 @@ module.exports = {
         return res.status(404).json({ message: "No recipes found" });
       }
 
-      // const updatedRecipes = res.locals.addFields
-      //   ? await res.locals.addFields(recipes)
-      //   : recipes;
-      const updatedRecipes = recipes;
-
       res.status(200).json({
         totalRecipes,
         totalPages: Math.ceil(totalRecipes / limit),
         currentPage: parseInt(page),
-        recipes: updatedRecipes,
+        recipes: recipes,
       });
     } catch (error) {
       console.error(error);
@@ -201,25 +233,29 @@ module.exports = {
         );
       }
 
-      let filter = {};
-
-      filter.diet = { $all: [new RegExp(`^${mappedDietType}$`, "i")] };
-
+      let conditions = [];
+      conditions.push({
+        diet: { $all: [new RegExp(`^${mappedDietType}$`, "i")] },
+      });
       if (recommendedCalories) {
-        filter.calories = { $lte: recommendedCalories };
+        conditions.push({
+          calories: { $lte: recommendedCalories },
+        });
       }
-
       if (isDiabetic) {
-        filter.diabetes = true;
+        conditions.push({ diabetes: true });
+      }
+      if (normalizedMealPreferences.length > 0) {
+        conditions.push({
+          class: {
+            $in: normalizedMealPreferences.map(
+              (pref) => new RegExp(`^${pref}$`, "i")
+            ),
+          },
+        });
       }
 
-      if (normalizedMealPreferences.length > 0) {
-        filter.class = {
-          $in: normalizedMealPreferences.map(
-            (pref) => new RegExp(`^${pref}$`, "i")
-          ),
-        };
-      }
+      const filter = conditions.length ? { $and: conditions } : {};
 
       const recipes = await Recipe.find(filter)
         .select("_id name image calories price rating cookingTime")
@@ -232,16 +268,11 @@ module.exports = {
         return res.status(404).json({ message: "No recipes found" });
       }
 
-      // const updatedRecipes = res.locals.addFields
-      //   ? await res.locals.addFields(recipes)
-      //   : recipes;
-      const updatedRecipes = recipes;
-
       res.status(200).json({
         totalRecipes,
         totalPages: Math.ceil(totalRecipes / limit),
         currentPage: parseInt(page),
-        recipes: updatedRecipes,
+        recipes: recipes,
       });
     } catch (error) {
       console.error(error);
@@ -255,11 +286,7 @@ module.exports = {
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
-      // const updatedRecipe = res.locals.addFields
-      //   ? await res.locals.addFields(recipe)
-      //   : recipe;
-      const updatedRecipe = recipe;
-      res.status(200).json(updatedRecipe);
+      res.status(200).json(recipe);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Server error" });
