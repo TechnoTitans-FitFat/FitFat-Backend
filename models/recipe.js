@@ -29,7 +29,7 @@ const recipeSchema = new mongoose.Schema({
 
   category: {
     type: [String],
-    enum: ["diet", "allergy", "diabetes", "home"],
+    enum: ["diet", "allergy", "diabetes", "Menu"],
   },
   diet: {
     type: [String],
