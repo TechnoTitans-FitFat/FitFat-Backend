@@ -16,8 +16,12 @@ module.exports = {
           .json({ status: false, message: "Recipe not found" });
       }
 
-      const productPrice = Number(recipe.price);
+      const productPrice =
+        recipe.offerPrice && Number(recipe.offerPrice) > 0
+          ? Number(recipe.offerPrice)
+          : Number(recipe.price);
       const productCalories = Number(recipe.calories);
+
       if (isNaN(productPrice) || isNaN(productCalories)) {
         return res.status(400).json({
           status: false,
@@ -29,7 +33,9 @@ module.exports = {
 
       if (cartItem) {
         cartItem.quantity += quantity;
-        cartItem.totalPrice = cartItem.quantity * productPrice;
+        cartItem.totalPrice = Number(
+          (cartItem.quantity * productPrice).toFixed(2)
+        );
         cartItem.totalCalories = cartItem.quantity * productCalories;
         await cartItem.save();
       } else {
@@ -38,7 +44,7 @@ module.exports = {
           productId,
           additives: additives || [],
           instructions: instructions || "",
-          totalPrice: productPrice * quantity,
+          totalPrice: Number((productPrice * quantity).toFixed(2)),
           totalCalories: productCalories * quantity,
           quantity,
         });
@@ -46,9 +52,9 @@ module.exports = {
       }
 
       const cartItems = await Cart.find({ UserId: userId });
-      const totalCartPrice = cartItems.reduce(
-        (sum, item) => sum + item.totalPrice,
-        0
+
+      const totalCartPrice = Number(
+        cartItems.reduce((sum, item) => sum + item.totalPrice, 0).toFixed(2)
       );
       const totalCartCalories = cartItems.reduce(
         (sum, item) => sum + item.totalCalories,
@@ -104,30 +110,46 @@ module.exports = {
     try {
       const userCart = await Cart.find({ UserId: userId }).populate({
         path: "productId",
-        select: "name price calories",
+        select: "name price offerPrice calories",
       });
 
-      const totalCartPrice = userCart.reduce(
-        (sum, item) => sum + item.totalPrice,
-        0
+      const updatedCart = userCart.map((item) => {
+        const product = item.productId;
+        const appliedPrice =
+          product.offerPrice && Number(product.offerPrice) > 0
+            ? Number(product.offerPrice)
+            : product.price;
+
+        const formattedTotalPrice = Number(
+          (appliedPrice * item.quantity).toFixed(2)
+        );
+        const formattedTotalCalories = Number(
+          (product.calories * item.quantity).toFixed(2)
+        );
+
+        return {
+          _id: item._id,
+          productId: product._id,
+          name: product.name,
+          price: appliedPrice,
+          calories: product.calories,
+          quantity: item.quantity,
+          totalPrice: formattedTotalPrice,
+          totalCalories: formattedTotalCalories,
+        };
+      });
+
+      const totalCartPrice = Number(
+        updatedCart.reduce((sum, item) => sum + item.totalPrice, 0).toFixed(2)
       );
-      const totalCartCalories = userCart.reduce(
+      const totalCartCalories = updatedCart.reduce(
         (sum, item) => sum + item.totalCalories,
         0
       );
 
       res.status(200).json({
         status: true,
-        cart: userCart.map((item) => ({
-          _id: item._id,
-          productId: item.productId._id,
-          name: item.productId.name,
-          price: item.productId.price,
-          calories: item.productId.calories,
-          quantity: item.quantity,
-          totalPrice: item.totalPrice,
-          totalCalories: item.totalCalories,
-        })),
+        cart: updatedCart,
         totalCartPrice,
         totalCartCalories,
       });

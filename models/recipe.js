@@ -12,6 +12,7 @@ const recipeSchema = new mongoose.Schema({
     calcium: String,
     potassium: String,
   },
+  offerPrice: Number,
   time: { type: String },
   rating: {
     type: Number,

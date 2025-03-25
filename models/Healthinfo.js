@@ -11,6 +11,7 @@ const healthInfoSchema = new mongoose.Schema({
   diabetesType: { type: String }, //, enum: ["Type 1", "Type 2"]
   insulinToCarbRatio: { type: Number },
   targetBloodSugarRange: { min: Number, max: Number },
+  correctionFactor: {type: Number}
 });
 
 const HealthInfo =

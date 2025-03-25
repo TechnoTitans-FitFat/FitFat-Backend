@@ -7,7 +7,11 @@ const { verifyAndAuthorization } = require("../middleware/verifyToken");
 
 //router.use(addFields);
 
-router.get("/", recipeController.getAllRecipes);
+//offer route
+router.get("/offer", recipeController.getOfferRecipes);
+
+router.get("/menu", recipeController.getMenuRecipes);
+router.get("/special", recipeController.getSpecialRecipes);
 router.get("/search", trackSearchHistory, recipeController.searchRecipes);
 
 router.get(
