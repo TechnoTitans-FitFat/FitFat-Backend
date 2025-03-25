@@ -69,9 +69,7 @@ module.exports = {
       const filter = conditions.length ? { $and: conditions } : {};
 
       const recipes = await Recipe.find(filter)
-        .select(
-          "_id name image calories price rating cookingTime diet allergy offerPrice"
-        )
+        .select("_id name image calories price rating cookingTime offerPrice")
         .skip(skip)
         .limit(parseInt(limit));
 
