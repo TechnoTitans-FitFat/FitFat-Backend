@@ -10,8 +10,8 @@ const { verifyAndAuthorization } = require("../middleware/verifyToken");
 //offer route
 router.get("/offer", recipeController.getOfferRecipes);
 
-router.get("/menu", recipeController.getMenuRecipes);
-router.get("/special", recipeController.getSpecialRecipes);
+router.get("/unhealthy", recipeController.getMenuRecipes);
+router.get("/healthy", recipeController.getSpecialRecipes);
 router.get("/search", trackSearchHistory, recipeController.searchRecipes);
 
 router.get(
