@@ -380,6 +380,25 @@ module.exports = {
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
+
+      const recipeObj = recipe.toObject();
+
+      if (recipeObj.category && recipeObj.category.includes("Menu")) {
+        const response = {
+          name: recipeObj.name,
+          ingredients: recipeObj.ingredients,
+          image: recipeObj.image,
+          price: recipeObj.price,
+          time: recipeObj.time,
+          rating: recipeObj.rating,
+          cookingTime: recipeObj.cookingTime,
+        };
+        if (recipeObj.offerPrice) {
+          response.offerPrice = recipeObj.offerPrice;
+        }
+        return res.status(200).json(response);
+      }
+
       res.status(200).json(recipe);
     } catch (error) {
       console.error(error);
