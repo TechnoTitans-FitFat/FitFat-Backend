@@ -317,7 +317,6 @@ module.exports = {
         dietTypeMapping[dietInfo.dietType] || dietInfo.dietType || "none";
 
       const recommendedCalories = dietInfo.macronutrientGoals?.calories;
-
       const isDiabetic = healthInfo.diabetes;
 
       let allergiesArray = [];
@@ -327,11 +326,11 @@ module.exports = {
           : [healthInfo.foodAllergies.trim()];
       }
 
-      let conditions = [];
-
-      conditions.push({
-        diet: { $all: [new RegExp(`^${normalizedDietType}$`, "i")] },
-      });
+      const conditions = [
+        {
+          diet: { $all: [new RegExp(`^${normalizedDietType}$`, "i")] },
+        },
+      ];
 
       if (recommendedCalories) {
         conditions.push({
@@ -342,15 +341,16 @@ module.exports = {
       if (isDiabetic) {
         conditions.push({ diabetes: true });
       }
+
       if (allergiesArray.length > 0) {
         conditions.push({
           allergy: {
-            $nin: allergiesArray.map((a) => new RegExp(`^${a}$`, "i")),
+            $all: allergiesArray.map((a) => new RegExp(`^${a}$`, "i")),
           },
         });
       }
 
-      const filter = conditions.length ? { $and: conditions } : {};
+      const filter = { $and: conditions };
 
       const recipes = await Recipe.find(filter)
         .select("_id name image calories price rating cookingTime")
