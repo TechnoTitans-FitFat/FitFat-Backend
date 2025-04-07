@@ -313,36 +313,39 @@ module.exports = {
         Vegan: "vegan",
         Keto: "keto",
       };
-      const mappedDietType = dietTypeMapping[dietInfo.dietType] || "none";
+      const normalizedDietType =
+        dietTypeMapping[dietInfo.dietType] || dietInfo.dietType || "none";
 
       const recommendedCalories = dietInfo.macronutrientGoals?.calories;
+
       const isDiabetic = healthInfo.diabetes;
 
-      let normalizedMealPreferences = [];
-      if (dietInfo.mealPreferences && dietInfo.mealPreferences.length > 0) {
-        normalizedMealPreferences = dietInfo.mealPreferences.map(
-          (pref) => pref.charAt(0).toUpperCase() + pref.slice(1).toLowerCase()
-        );
+      let allergiesArray = [];
+      if (healthInfo.foodAllergies && healthInfo.foodAllergies.length > 0) {
+        allergiesArray = healthInfo.foodAllergies.includes(",")
+          ? healthInfo.foodAllergies.split(",").map((a) => a.trim())
+          : [healthInfo.foodAllergies.trim()];
       }
 
       let conditions = [];
+
       conditions.push({
-        diet: { $all: [new RegExp(`^${mappedDietType}$`, "i")] },
+        diet: { $all: [new RegExp(`^${normalizedDietType}$`, "i")] },
       });
+
       if (recommendedCalories) {
         conditions.push({
           calories: { $lte: recommendedCalories },
         });
       }
+
       if (isDiabetic) {
         conditions.push({ diabetes: true });
       }
-      if (normalizedMealPreferences.length > 0) {
+      if (allergiesArray.length > 0) {
         conditions.push({
-          class: {
-            $in: normalizedMealPreferences.map(
-              (pref) => new RegExp(`^${pref}$`, "i")
-            ),
+          allergy: {
+            $nin: allergiesArray.map((a) => new RegExp(`^${a}$`, "i")),
           },
         });
       }
