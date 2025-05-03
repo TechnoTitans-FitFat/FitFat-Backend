@@ -110,7 +110,7 @@ module.exports = {
     try {
       const userCart = await Cart.find({ UserId: userId }).populate({
         path: "productId",
-        select: "name price offerPrice calories",
+        select: "name price offerPrice calories image",
       });
 
       const updatedCart = userCart.map((item) => {
@@ -131,6 +131,7 @@ module.exports = {
           _id: item._id,
           productId: product._id,
           name: product.name,
+          image: product.image,
           price: appliedPrice,
           calories: product.calories,
           quantity: item.quantity,
