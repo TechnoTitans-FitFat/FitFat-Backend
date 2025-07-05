@@ -9,13 +9,17 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
+const isProduction = process.env.NODE_ENV === "production";
+const callbackURL = isProduction
+  ? process.env.CALLBACK_URL_PROD
+  : process.env.CALLBACK_URL;
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL_PROD, //used in global
-      //callbackURL: process.env.CALLBACK_URL, //used in local
+      callbackURL: callbackURL,
     },
     (accessToken, refreshToken, profile, done) => {
       return done(null, profile);
