@@ -3,6 +3,8 @@ const passport = require("../config/passport");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const googleAuthDal = require("../dal/google-auth.dal");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const router = express.Router();
 
@@ -66,6 +68,57 @@ router.get("/signout", (req, res) => {
     res.json({ message: "Signed out successfully" });
   } catch (err) {
     res.status(400).json({ message: "Failed to sign out user" });
+  }
+});
+
+router.post("/token", async (req, res) => {
+  const { idToken } = req.body;
+
+  if (!idToken) {
+    return res.status(400).json({ message: "Missing ID token" });
+  }
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const email = payload.email;
+
+    if (!email) {
+      return res.status(400).json({ message: "Invalid Google token payload" });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        email,
+        name: payload.name,
+        picture: payload.picture,
+        userType: "Client",
+      });
+      console.log("Registered new Google user.");
+    } else {
+      console.log("Google user already exists.");
+    }
+
+    const token = jwt.sign(
+      { id: user._id, userType: user.userType },
+      process.env.JWT_SEC,
+      { expiresIn: "21d" }
+    );
+
+    res.json({
+      message: "Authentication successful",
+      token,
+      id: user._id,
+    });
+  } catch (err) {
+    console.error("Token verification failed", err);
+    res.status(401).json({ message: "Invalid ID token" });
   }
 });
 
