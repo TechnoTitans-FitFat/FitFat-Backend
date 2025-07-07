@@ -298,26 +298,13 @@ module.exports = {
       const { page = 1, limit = 10 } = req.query;
       const skip = (page - 1) * limit;
 
-      const dietInfo = await DietInfo.findOne({ userId });
       const healthInfo = await HealthInfo.findOne({ userId });
 
-      if (!dietInfo || !healthInfo) {
+      if (!healthInfo) {
         return res.status(404).json({
-          message: "Diet or health information not found for the user",
+          message: "Health information not found for the user",
         });
       }
-
-      const dietTypeMapping = {
-        "High-Carb": "high-carb",
-        "Low-Carb": "low-carb",
-        Vegan: "vegan",
-        Keto: "keto",
-      };
-      const normalizedDietType =
-        dietTypeMapping[dietInfo.dietType] || dietInfo.dietType || "none";
-
-      const recommendedCalories = dietInfo.macronutrientGoals?.calories;
-      const isDiabetic = healthInfo.diabetes;
 
       let allergiesArray = [];
       if (healthInfo.foodAllergies && healthInfo.foodAllergies.length > 0) {
@@ -326,31 +313,17 @@ module.exports = {
           : [healthInfo.foodAllergies.trim()];
       }
 
-      const conditions = [
-        {
-          diet: { $all: [new RegExp(`^${normalizedDietType}$`, "i")] },
+      if (allergiesArray.length === 0) {
+        return res.status(400).json({
+          message: "No allergy information found to filter recipes",
+        });
+      }
+
+      const filter = {
+        allergy: {
+          $all: allergiesArray.map((a) => new RegExp(`^${a}$`, "i")),
         },
-      ];
-
-      if (recommendedCalories) {
-        conditions.push({
-          calories: { $lte: recommendedCalories },
-        });
-      }
-
-      if (isDiabetic) {
-        conditions.push({ diabetes: true });
-      }
-
-      if (allergiesArray.length > 0) {
-        conditions.push({
-          allergy: {
-            $all: allergiesArray.map((a) => new RegExp(`^${a}$`, "i")),
-          },
-        });
-      }
-
-      const filter = { $and: conditions };
+      };
 
       const recipes = await Recipe.find(filter)
         .select("_id name image calories price rating cookingTime")
